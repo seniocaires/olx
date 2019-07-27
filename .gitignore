@@ -1,19 +1,5 @@
-/webscrapers/olx-webscraper-categoria/target/
-/webscrapers/olx-webscraper-categoria/.settings/
-/webscrapers/olx-webscraper-categoria/.classpath
-/webscrapers/olx-webscraper-categoria/.project
+/olx-webscraper/target/
+/olx-webscraper/.settings/
+/olx-webscraper/.classpath
+/olx-webscraper/.project
 
-/webscrapers/olx-webscraper-regiao/target/
-/webscrapers/olx-webscraper-regiao/.settings/
-/webscrapers/olx-webscraper-regiao/.classpath
-/webscrapers/olx-webscraper-regiao/.project
-
-/webscrapers/olx-webscraper-subcategoria/target/
-/webscrapers/olx-webscraper-subcategoria/.settings/
-/webscrapers/olx-webscraper-subcategoria/.classpath
-/webscrapers/olx-webscraper-subcategoria/.project
-
-/webscrapers/olx-webscraper-subregiao/target/
-/webscrapers/olx-webscraper-subregiao/.settings/
-/webscrapers/olx-webscraper-subregiao/.classpath
-/webscrapers/olx-webscraper-subregiao/.project

@@ -9,51 +9,53 @@ services:
       - "61616:61616"
       - "8161:8161"
 
-  olx-webscraper-regiao:
+  webscraper_regiao:
     restart: unless-stopped
     links:
       - activemq:broker
     build:
-      context: ./webscrapers/olx-webscraper-regiao
+      context: ./olx-webscraper
+    image: seniocaires/olx_webscraper
     environment:
       - UF=mg
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
       - SLEEP_MILISEGUNDOS=300000
+    entrypoint: regiao
 
-  olx-webscraper-subregiao:
+  webscraper_subregiao:
     restart: unless-stopped
     links:
       - activemq:broker
-    build:
-      context: ./webscrapers/olx-webscraper-subregiao
+    image: seniocaires/olx_webscraper
     environment:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
       - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+    entrypoint: subregiao
 
-  olx-webscraper-categoria:
+  categoria:
     restart: unless-stopped
     links:
       - activemq:broker
-    build:
-      context: ./webscrapers/olx-webscraper-categoria
+    image: seniocaires/olx_webscraper
     environment:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
       - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+    entrypoint: categoria
 
-  olx-webscraper-subcategoria:
+  webscraper_subcategoria:
     restart: unless-stopped
     links:
       - activemq:broker
-    build:
-      context: ./webscrapers/olx-webscraper-subcategoria
+    image: seniocaires/olx_webscraper
     environment:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
       - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+    entrypoint: subcategoria
