@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+
+  activemq:
+    restart: unless-stopped
+    image: seniocaires/activemq:5.15.8
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+
+  olx-webscraper-regiao:
+    restart: unless-stopped
+    links:
+      - activemq:broker
+    build:
+      context: ./webscrapers/olx-webscraper-regiao
+    environment:
+      - UF=mg
+      - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
+      - BROKER_USUARIO=
+      - BROKER_SENHA=
+      - SLEEP_MILISEGUNDOS=300000
+
+  olx-webscraper-subregiao:
+    restart: unless-stopped
+    links:
+      - activemq:broker
+    build:
+      context: ./webscrapers/olx-webscraper-subregiao
+    environment:
+      - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
+      - BROKER_USUARIO=
+      - BROKER_SENHA=
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+
+  olx-webscraper-categoria:
+    restart: unless-stopped
+    links:
+      - activemq:broker
+    build:
+      context: ./webscrapers/olx-webscraper-categoria
+    environment:
+      - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
+      - BROKER_USUARIO=
+      - BROKER_SENHA=
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+
+  olx-webscraper-subcategoria:
+    restart: unless-stopped
+    links:
+      - activemq:broker
+    build:
+      context: ./webscrapers/olx-webscraper-subcategoria
+    environment:
+      - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
+      - BROKER_USUARIO=
+      - BROKER_SENHA=
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
