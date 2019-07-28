@@ -12,7 +12,7 @@ public class Mensagem {
 
 	private SubCategoria subCategoria;
 
-	private Produto produto;
+	private Anuncio anuncio;
 
 	private StackTraceElement[] stackTrace;
 
@@ -30,7 +30,7 @@ public class Mensagem {
 		this.subRegiao = mensagem.getSubRegiao();
 		this.categoria = mensagem.getCategoria();
 		this.subCategoria = mensagem.getSubCategoria();
-		this.produto = mensagem.getProduto();
+		this.anuncio = mensagem.getAnuncio();
 	}
 
 	/*--------------------------------------------
@@ -78,12 +78,12 @@ public class Mensagem {
 		this.subCategoria = subCategoria;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public Anuncio getAnuncio() {
+		return anuncio;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setAnuncio(Anuncio anuncio) {
+		this.anuncio = anuncio;
 	}
 
 	public StackTraceElement[] getStackTrace() {

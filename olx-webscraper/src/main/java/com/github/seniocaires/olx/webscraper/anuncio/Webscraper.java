@@ -13,13 +13,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlListItem;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlParagraph;
 import com.github.seniocaires.olx.configuracao.Configuracao;
 import com.github.seniocaires.olx.mensagem.Mensagem;
-import com.github.seniocaires.olx.mensagem.Produto;
+import com.github.seniocaires.olx.mensagem.Anuncio;
 
 public class Webscraper {
 
@@ -54,51 +56,60 @@ public class Webscraper {
 			HtmlDivision htmlPaginacao = null;
 			HtmlDivision htmlNavegacaoAnuncios;
 
-//			final HtmlListItem htmlPaginaAtual = htmlPaginacao.getFirstByXPath("//div[@class='item number active']");
-//			paginaAtual = Integer.valueOf(htmlPaginaAtual.asText());
-
 			do {
 
 				pagina = webClient.getPage(mensagem.getSubCategoria().getLink() + "?" + "o=" + paginaAtual + "&" + Configuracao.ORDENACAO_MAIS_RECENTES);
 
-				htmlNavegacaoAnuncios = pagina.getFirstByXPath("//div[@class='section_OLXad-list ']");
+				htmlNavegacaoAnuncios = pagina.getFirstByXPath("//div[@class='section_OLXad-list ']"); // XPath absoluto
 				for (HtmlElement htmlAnuncio : htmlNavegacaoAnuncios.getElementsByTagName("li")) {
 
 					if ("item".equals(htmlAnuncio.getAttribute("class"))) {
 						List<HtmlElement> htmlLinks = htmlAnuncio.getElementsByTagName("a");
 
-						if (!htmlLinks.isEmpty()) {
+						if (htmlLinks != null && !htmlLinks.isEmpty()) {
 							htmlAnuncio = (HtmlListItem) htmlAnuncio;
-							HtmlElement itemLista = htmlAnuncio.getElementsByTagName("a").get(0);
-							String nome = itemLista.getAttribute("title");
-							String link = itemLista.getAttribute("href");
+							HtmlAnchor linkItem = (HtmlAnchor) htmlAnuncio.getElementsByTagName("a").get(0);
+							String nome = linkItem.getAttribute("title");
+							String link = linkItem.getAttribute("href");
 
 							BigDecimal preco = null;
 							BigDecimal precoAnterior = null;
 
-							HtmlDivision divPrecos = itemLista.getFirstByXPath("//div[@class='col-3 ']");
-
+							HtmlDivision divPrecos = linkItem.getFirstByXPath("div[@class='col-3 ']"); // XPath relativo
 							if (divPrecos != null) {
 
-								HtmlDivision divPreco = (HtmlDivision) divPrecos.getFirstByXPath("//div[@class='OLXad-list-price']");
-								HtmlDivision divPrecoAnterior = (HtmlDivision) divPrecos.getFirstByXPath("//div[@class='OLXad-list-old-price']");
-								if (divPreco != null) {
-									preco = new BigDecimal(divPrecos.asText().replaceAll("[^\\d.]", "").trim());
+								HtmlParagraph paragraphPreco = (HtmlParagraph) divPrecos.getFirstByXPath("p[@class='OLXad-list-price']"); // XPath relativo
+								HtmlParagraph paragraphPrecoAnterior = (HtmlParagraph) divPrecos.getFirstByXPath("p[@class='OLXad-list-old-price']"); // XPath relativo
+
+								if (paragraphPreco != null) {
+									try {
+										preco = new BigDecimal(paragraphPreco.asText().replaceAll("[^\\d.]", "").trim());
+									} catch (NumberFormatException e) {
+										preco = null;
+									}
 								}
-								if (divPrecoAnterior != null) {
-									precoAnterior = new BigDecimal(divPrecoAnterior.asText().replaceAll("[^\\d.]", "").trim());
+								if (paragraphPrecoAnterior != null) {
+									try {
+										precoAnterior = new BigDecimal(paragraphPrecoAnterior.asText().replaceAll("[^\\d.]", "").trim());
+									} catch (NumberFormatException e) {
+										precoAnterior = null;
+									}
 								}
 							}
 							Mensagem mensagemSaida = new Mensagem(mensagem);
-							mensagemSaida.setProduto(new Produto(nome, link, preco, precoAnterior));
+							mensagemSaida.setAnuncio(new Anuncio(nome, link, preco, precoAnterior));
 							mensagensSaida.add(mensagemSaida);
 						}
 					}
 				}
 
-				htmlPaginacao = pagina.getFirstByXPath("//div[@class='module_pagination']");
-				htmlProximaPagina = htmlPaginacao.getFirstByXPath("//li[@class='item next']");
-				paginaAtual++;
+				try {
+					htmlPaginacao = pagina.getFirstByXPath("//div[@class='module_pagination']");
+					htmlProximaPagina = htmlPaginacao.getFirstByXPath("//li[@class='item next']");
+					paginaAtual++;
+				} catch (NullPointerException e) {
+					htmlProximaPagina = null;
+				}
 
 			} while (htmlProximaPagina != null);
 

@@ -21,6 +21,7 @@ import javax.jms.TextMessage;
 import com.github.seniocaires.olx.broker.Broker;
 import com.github.seniocaires.olx.configuracao.Configuracao;
 import com.github.seniocaires.olx.mensagem.Mensagem;
+import com.github.seniocaires.olx.mongo.MongoDB;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -62,6 +63,7 @@ public class Listener implements MessageListener {
 			for (Mensagem mensagemSaida : mensagensSaida) {
 				TextMessage textMessage = broker.getSession().createTextMessage(gson.toJson(mensagemSaida));
 				messageProducer.send(textMessage);
+				MongoDB.instance().getDatabase().save(mensagemSaida.getAnuncio());
 			}
 
 		} catch (TimeoutException e) {

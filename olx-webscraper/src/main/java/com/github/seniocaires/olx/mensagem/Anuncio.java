@@ -2,7 +2,21 @@ package com.github.seniocaires.olx.mensagem;
 
 import java.math.BigDecimal;
 
-public class Produto {
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Field;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Index;
+import org.mongodb.morphia.annotations.Indexes;
+
+@Entity("anuncios")
+@Indexes(@Index(value = "link", fields = {
+		@Field("link")
+}))
+public class Anuncio {
+
+	@Id
+	private ObjectId id;
 
 	private String nome;
 
@@ -17,7 +31,7 @@ public class Produto {
 	 * --------------------------------------------
 	 */
 
-	public Produto(String nome, String link, BigDecimal preco, BigDecimal precoAnterior) {
+	public Anuncio(String nome, String link, BigDecimal preco, BigDecimal precoAnterior) {
 		this.nome = nome;
 		this.link = link;
 		this.preco = preco;
@@ -68,7 +82,7 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Produto [link=" + link + "]";
+		return "Anúncio [link=" + link + "]";
 	}
 
 	@Override
@@ -87,7 +101,7 @@ public class Produto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Anuncio other = (Anuncio) obj;
 		if (link == null) {
 			if (other.link != null)
 				return false;
