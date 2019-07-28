@@ -19,6 +19,7 @@ COPY --from=builder /build/target/regiao-jar-with-dependencies.jar regiao.jar
 COPY --from=builder /build/target/subregiao-jar-with-dependencies.jar subregiao.jar
 COPY --from=builder /build/target/categoria-jar-with-dependencies.jar categoria.jar
 COPY --from=builder /build/target/subcategoria-jar-with-dependencies.jar subcategoria.jar
+COPY --from=builder /build/target/anuncio-jar-with-dependencies.jar anuncio.jar
 
 RUN echo '#!/bin/sh' > regiao && \
     echo 'java -jar regiao.jar' >> regiao && \
@@ -31,4 +32,7 @@ RUN echo '#!/bin/sh' > regiao && \
     chmod +x categoria && \
     echo '#!/bin/sh' > subcategoria && \
     echo 'java -jar subcategoria.jar' >> subcategoria && \
-    chmod +x subcategoria
+    chmod +x subcategoria && \
+    echo '#!/bin/sh' > anuncio && \
+    echo 'java -jar anuncio.jar' >> anuncio && \
+    chmod +x anuncio

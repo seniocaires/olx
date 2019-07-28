@@ -15,10 +15,12 @@ public class Configuracao {
 	public static final String BROKER_QUEE_SUBREGIAO = "OLX.002.SUBREGIAO";
 	public static final String BROKER_QUEE_CATEGORIA = "OLX.003.CATEGORIA";
 	public static final String BROKER_QUEE_SUBCATEGORIA = "OLX.004.SUBCATEGORIA";
+	public static final String BROKER_QUEE_ANUNCIO = "OLX.005.ANUNCIO";
 	public static final String BROKER_QUEE_TIMEOUT = "OLX.000.TIMEOUT";
 	public static final String BROKER_QUEE_ERROS = "OLX.000.ERROS";
 	public static final Integer TIMEOUT_PROCESSAMENTO_SEGUNDOS = (System.getenv("TIMEOUT_PROCESSAMENTO_SEGUNDOS") == null || "".equals(System.getenv("TIMEOUT_PROCESSAMENTO_SEGUNDOS")) ? 30 : Integer.valueOf(System.getenv("TIMEOUT_PROCESSAMENTO_SEGUNDOS")));
 	public static final Integer SLEEP_MILISEGUNDOS = (System.getenv("SLEEP_MILISEGUNDOS") == null || "".equals(System.getenv("SLEEP_MILISEGUNDOS")) ? 60000 : Integer.valueOf(System.getenv("SLEEP_MILISEGUNDOS")));
+	public static final String ORDENACAO_MAIS_RECENTES = "sf=1";
 
 	public Configuracao() {
 	}
@@ -31,6 +33,7 @@ public class Configuracao {
 		LOGGER.log(Level.FINE, "BROKER_QUEE_SUBREGIAO " + BROKER_QUEE_SUBREGIAO);
 		LOGGER.log(Level.FINE, "BROKER_QUEE_CATEGORIA " + BROKER_QUEE_CATEGORIA);
 		LOGGER.log(Level.FINE, "BROKER_QUEE_SUBCATEGORIA " + BROKER_QUEE_SUBCATEGORIA);
+		LOGGER.log(Level.FINE, "BROKER_QUEE_ANUNCIO " + BROKER_QUEE_ANUNCIO);
 		LOGGER.log(Level.FINE, "BROKER_QUEE_TIMEOUT " + BROKER_QUEE_TIMEOUT);
 		LOGGER.log(Level.FINE, "BROKER_QUEE_ERROS " + BROKER_QUEE_ERROS);
 		LOGGER.log(Level.FINE, "TIMEOUT_PROCESSAMENTO_SEGUNDOS " + TIMEOUT_PROCESSAMENTO_SEGUNDOS);

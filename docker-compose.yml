@@ -33,7 +33,7 @@ services:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
-      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=30
     entrypoint: subregiao
 
   categoria:
@@ -45,7 +45,7 @@ services:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
-      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=30
     entrypoint: categoria
 
   webscraper_subcategoria:
@@ -57,5 +57,18 @@ services:
       - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
       - BROKER_USUARIO=
       - BROKER_SENHA=
-      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=15
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=30
     entrypoint: subcategoria
+
+  webscraper_anuncio:
+    restart: unless-stopped
+    links:
+      - activemq:broker
+    image: seniocaires/olx_webscraper
+    environment:
+      - BROKER_URL=tcp://broker:61616?jms.prefetchPolicy.all=1
+      - BROKER_USUARIO=
+      - BROKER_SENHA=
+      - TIMEOUT_PROCESSAMENTO_SEGUNDOS=300
+    entrypoint: anuncio
+

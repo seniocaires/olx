@@ -12,6 +12,8 @@ public class Mensagem {
 
 	private SubCategoria subCategoria;
 
+	private Produto produto;
+
 	private StackTraceElement[] stackTrace;
 
 	/*--------------------------------------------
@@ -28,6 +30,7 @@ public class Mensagem {
 		this.subRegiao = mensagem.getSubRegiao();
 		this.categoria = mensagem.getCategoria();
 		this.subCategoria = mensagem.getSubCategoria();
+		this.produto = mensagem.getProduto();
 	}
 
 	/*--------------------------------------------
@@ -73,6 +76,14 @@ public class Mensagem {
 
 	public void setSubCategoria(SubCategoria subCategoria) {
 		this.subCategoria = subCategoria;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 	public StackTraceElement[] getStackTrace() {

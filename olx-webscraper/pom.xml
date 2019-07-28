@@ -194,6 +194,24 @@
 							</archive>
 						</configuration>
 					</execution>
+					<execution>
+						<id>build-anuncio</id>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<finalName>anuncio</finalName>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+								<manifest>
+									<mainClass>com.github.seniocaires.olx.webscraper.anuncio.Run</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
